@@ -3,8 +3,8 @@ import React, { useState } from "react";
 const ToDoList = () => {
   const [tasks, setTasks] = useState([
     "Stay late up",
-    "Smoking while drink Coffee",
     "Learn React JS",
+    "Smoking & Coffee",
   ]);
 
   const [newTasks, setNewTasks] = useState("");
@@ -25,8 +25,32 @@ const ToDoList = () => {
     setTasks(updateTasks);
   }
 
+  function moveTaskUp(index) {
+    if (index > 0) {
+      const updateTasks = [...tasks];
+
+      [updateTasks[index], updateTasks[index - 1]] = [
+        updateTasks[index - 1],
+        updateTasks[index],
+      ];
+      setTasks(updateTasks);
+    }
+  }
+
+  const moveTaskDown = (index) => {
+    if (index < tasks.length - 1) {
+      const updateTasks = [...tasks];
+
+      [updateTasks[index], updateTasks[index + 1]] = [
+        updateTasks[index + 1],
+        updateTasks[index],
+      ];
+      setTasks(updateTasks);
+    }
+  };
+
   return (
-    <div className="box-border bg-slate-600 text-white text-center h-lvh pt-14">
+    <div className="h-screen bg-slate-600 text-white text-center pt-14">
       <h1 className="font-bold text-4xl">To Do List</h1>
       <div className="pt-10">
         <input
@@ -48,7 +72,7 @@ const ToDoList = () => {
         {tasks.map((task, index) => (
           <li
             key={index}
-            className="list-outside px-4 p-3 mx-60 bg-slate-400 mb-5 rounded-sm"
+            className="list-outside px-3 p-3 mx-72 bg-slate-400 mb-5 rounded-sm"
           >
             <span className="text-xl font-bold">{task}</span>
             <button
@@ -58,13 +82,13 @@ const ToDoList = () => {
               Delete
             </button>
             <button
-              onClick={deleteTasks}
+              onClick={() => moveTaskUp(index)}
               className="p-1 px-4 ml-3 bg-cyan-500 hover:bg-cyan-600 rounded-md"
             >
               ⬆️
             </button>
             <button
-              onClick={deleteTasks}
+              onClick={() => moveTaskDown(index)}
               className="p-1 px-4 ml-3 bg-cyan-500 hover:bg-cyan-600 rounded-md"
             >
               ⬇️
